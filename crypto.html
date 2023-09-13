@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head><script type="text/javascript" src="/___vscode_livepreview_injected_script"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+<link rel="stylesheet" href="Crypto.css" />
+<title>Bitcoin Price Prediction Using Recurrent Neural Networks and LSTM</title>
+
+
+</head>
+<body class="av-detail-page">
+
+<div class="col-md-9 pl-0">
+<h1>Bitcoin Price Prediction Using Recurrent Neural Networks and LSTM</h1>
+</div>
+
+
+<section class="av-details-page target w-100" id="1">
+<div>
+<h2>Index</h2>
+<div>
+<ol>
+<li>Introduction</li>
+<li>Understanding Bitcoin</li>
+<li>Technologies used</li>
+<li>Getting real-time cryptocurrency data (bitcoin)</li>
+<li>Normalization</li>
+<li>Predict the price of cryptocurrency using LSTM neural network (deep learning)</li>
+<li>Test Dataset</li>
+<li>Conclusion</li>
+</ol>
+</div>
+</div>
+
+<div>
+<h2>1. Introduction</h2>
+<p><t><t></t>Recurrent neural networks (RNN) are the state-of-the-art algorithm for sequential data and are used by Apple&#8217;s Siri and Google&#8217;s voice search. It is an algorithm that remembers its input due to its internal memory, which makes the algorithm perfectly suited for solving machine learning problems involving sequential data. It is one of the algorithms that have great results in deep learning. In this article, it is discussed how to predict the price of Bitcoin by analyzing the information of the last 6 years. We implemented a simple model that helps us better understand how time series works using Python and RNNs.</p>
+</div>
+
+<div>
+<h2>2. Understanding Bitcoin</h2>
+<p><t><t></t>Bitcoin is a cryptocurrency that was created in January 2009. It is the world&#8217;s most valuable cryptocurrency and is traded on over 40 exchanges around the world, accepting over 30 different currencies. As a currency, Bitcoin offers a new opportunity for price forecasting as it has high volatility, which is much higher compared to traditional currencies.</p>
+<p><t><t></t>The bitcoin system is a set of decentralized nodes that run the bitcoin code and store its <a href="https://www.investopedia.com/terms/b/blockchain.asp">blockchain</a>. Metaphorically, a blockchain can be considered a collection of blocks. In each block, there is a collection of transactions. Because all the computers running the blockchain has the same list of blocks and transactions, and can transparently see these new blocks being filled with new bitcoin transactions, no one can cheat the system.</p>
+<p><t><t></t>Bitcoin uses <a href="https://www.investopedia.com/terms/b/blockchain.asp">peer-to-peer</a> technology to facilitate instant payments. Miners are responsible for processing transactions on the blockchain and are driven by repo fees.</p>
+<p><t><t></t>The way bitcoin works are key to understanding why it is so popular. Unlike other investments, cryptocurrency is not tied to physical assets or the US dollar. Its primary purpose is to allow two people anywhere to exchange value directly. What this means is that there is no centralized controlling this network. There is no government, no central bank that can shut down or arbitrarily raise or lower the value.</p>
+<p><t><t></t>It will be interesting to see to which degree central banks start to digitize their own currencies. As financial systems become more digital, it&#8217;s leading to bitcoin more mainstream, but the digital currency&#8217;s resurgence is also closely tied to the state of global finance.</p>
+<p><t><t></t>Every time someone makes a transaction, a unique encrypted signature is added to the ledger for verification</p>
+</div>
+
+<div>
+<h2>3. Technologies used</h2>
+<h3><b>1) Recurrent Neural Networks</b></h3>
+<p><t></t>RNNs are a robust and powerful type of neural network and are considered one of the most professional algorithms because they are the only ones with internal memory.</p>
+<p><t></t>Recurrent neural networks were first created in the 1980s, but only in recent years has their true potential been realized. The increase in its computational power, along with the gigantic amounts of data we now have to work with, and the invention of short-term memory (LSTM) in the 1990s, has really brought RNNs to the fore.</p>
+<p><t></t>The algorithm performs very well for sequential data such as time series, speech, text, financial data, audio, video, weather, and more. RNNs are able to form a much deeper understanding of a sequence and its context compared to other algorithms.</p>
+<p><t></t>In an RNN, the information goes through a cycle. When making a decision, it considers the current input and also what it has learned from the inputs it has received previously.</p>
+<p><t></t>The image below illustrates how the flow of information works in the RNN algorithm.</p>
+<figure><img decoding="async" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/74558RNNs.png" alt="Bitcoin Price Prediction RNN" width="960" height="540" /></figure>
+<h3><b>2) Long Short-Term Memory (LSTM)</b></h3>
+<p><t></t>Long short-term memory networks are an extension of recurrent neural networks, which basically extend the memory. Therefore it is well suited to learn from important experiences that have very long time lags in between.</p>
+<p><t></t>LSTMs enable RNNs to remember inputs over a long period of time. This is because LSTMs contain information in a memory, much like the memory of a computer. The LSTM can read, write and delete information from its memory.</p>
+<p><t></t>In an LSTM you have three gates: input, forget and output gate. These gates determine whether or not to let new input in (input gate), delete the information because it isn’t important (forget gate), or let it impact the output at the current timestep (output gate). Below is an illustration of an RNN with its three gates:</p>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/89215LSTM.png" alt="Bitcoin Price Prediction LSTM" width="877" height="542" /></figure>
+</div>
+<p><t></t>The gates in an LSTM are analog in the form of sigmoids, meaning they range from zero to one. The fact that they are analog enables them to do backpropagation.</p>
+</div>
+
+<div>
+<h2>4. Getting real-time cryptocurrency data (bitcoin)</h2>
+<p><t></t>The data is collected the current data for Bitcoin from <a href="https://in.finance.yahoo.com/quote/BTC-USD/history?p=BTC-USD&amp;guce_referrer=aHR0cHM6Ly9naXRodWIuY29tL3N1cmFqYmFoYWR1cjU5MS9CaXRjb2luLVByaWNlLVByZWRpY3Rpb24tVXNpbmctUk5OLS0tTFNUTQ&amp;guce_referrer_sig=AQAAAHL6O0g7rnrvKBzzqIlA6B4fdHCk0Vp_mdcZPKO9V7W9d0d6cMkBLA1DxSSlcvb49Oq_m9nOh9y-Ay6s73nEk31hxma615IMw9okiq3sqeK9L9rUxlqvPMrhvOjARP7X96ckdYbjO0HzbsPe9VXZXn4YqkOZe-dkS-dia7qDMB-3&amp;guccounter=2">Yahoo Finance</a></p>
+<pre><t></t>import numpy as np
+<t>import matplotlib.pyplot as plt
+<t>import pandas as pd
+<t>from sklearn.preprocessing import MinMaxScaler</pre>
+
+<pre><t></t>data_training = data[data['Date']&lt; '2020-01-01'].copy()
+<t>data_training</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/195402.PNG" alt="data Bitcoin Price Prediction" width="1022" height="525" /></figure>
+</div>
+<pre><t></t>data_test = data[data['Date']&lt; '2020-01-01'].copy()
+<t>data_test</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/232783.PNG" alt="Bitcoin Price Prediction test data " width="1025" height="541" /></figure>
+</div>
+<pre><t></t>training_data = data_training.drop(['Date', 'Adj Close'], axis = 1)
+<t>training_data.head()</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/828494.PNG" alt="training Bitcoin Price Prediction" width="665" height="269" /></figure>
+</div>
+</div>
+
+<div>
+<h2>5. Normalization</h2>
+<p><t></t>The first step we will take to our data is to normalize its values. The goal of normalization is to change the values of numeric columns in the data set to a common scale, without distorting differences in the ranges of values.</p>
+<pre><t></t>MinMaxScaler is used to normalize the data
+<t>scaler = MinMaxScaler()
+<t>training_data = scaler.fit_transform(training_data)
+<t>training_data</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/983495.PNG" alt="Bitcoin Price Prediction normalization" width="838" height="335" /></figure>
+</div>
+<pre><t></t>X_train = [] 
+<t>Y_train = []</pre>
+<pre><t></t>training_data.shape[0]</pre>
+<pre><t></t>for i in range(60, training_data.shape[0]):</pre>
+<pre><t></t>X_train.append(training_data[i-60:i])</pre>
+<pre><t></t>Y_train.append(training_data[i,0])</pre>
+<pre><t></t>X_train, Y_train = np.array(X_train), np.array(Y_train)
+<t>X_train.shape</pre>
+</div>
+
+<div>
+<h2>6. Predict the price of cryptocurrency using LSTM neural network (deep learning)</h2>
+<p><t></t>This is the model-building stage. Finding the right model is an art, and it will take several tweaks and attempts to find the right layers and hyperparameters for each one.</p>
+<p><t></t>The model building is quite simple and standard for this type of problem.</p>
+<p><t></t>Training this model is something you can do even without a GPU, the amount of data is very low and the network architecture is very simple. When it comes to more advanced models with more granular information, it can take hours or days to train.</p>
+<pre><t></t>from tensorflow.keras import Sequential</pre>
+<pre><t></t>from tensorflow.keras.layers import Dense, LSTM, Dropout</pre>
+<pre><t></t>#Initialize the RNN</pre>
+<pre><t></t>model = Sequential() model.add(LSTM(units = 50, activation = 'relu', return_sequences = True, input_shape = (X_train.shape[1], 5)))</pre>
+<pre><t></t>model.add(Dropout(0.2)) model.add(LSTM(units = 60, activation = 'relu', return_sequences = True))</pre>
+<pre><t></t>model.add(Dropout(0.3)) model.add(LSTM(units = 80, activation = 'relu', return_sequences = True))</pre>
+<pre><t></t>model.add(Dropout(0.4)) model.add(LSTM(units = 120, activation = 'relu'))</pre>
+<pre><t></t>model.add(Dropout(0.5)) model.add(Dense(units =1))</pre>
+<pre><t></t>model.summary()</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/620066.PNG" alt="model Bitcoin Price Prediction" width="768" height="634" /></figure>
+</div>
+<pre><t></t>model.compile(optimizer = 'adam', loss = 'mean_squared_error')</pre>
+<pre><t></t>history= model.fit(X_train, Y_train, epochs = 20, batch_size =50, validation_split=0.1</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/49739epo.PNG" alt="epoch Bitcoin Price Prediction" width="1137" height="852" /></figure>
+</div>
+<pre><t></t>loss = history.history['loss']
+<t>val_loss = history.history['val_loss']
+<t></t>epochs = range(len(loss))
+<t></t>plt.figure()
+<t></t>plt.plot(epochs, loss, 'b', label='Training loss')
+<t></t>plt.plot(epochs, val_loss, 'r', label='Validation loss')
+<t></t>plt.title("Training and Validation Loss")
+<t></t>plt.legend()
+<t></t>plt.show()</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/937137.PNG" alt="Training and Validation Loss" width="601" height="403" /></figure>
+</div>
+</div>
+
+<div>
+<h2>7. Test Dataset</h2>
+<pre><t></t>part_60_days = data_training.tail(60)
+<t>df= part_60_days.append(data_test, ignore_index = True)
+<t>df = df.drop(['Date', 'Adj Close'], axis = 1)
+<t>df.head()</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/705588.PNG" alt="Test data" width="747" height="271" /></figure>
+</div>
+<pre><t></t>inputs = scaler.transform(df) inputs</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/412329.PNG" alt="scaler transformer" width="806" height="189" /></figure>
+</div>
+<pre><t></t>X_test = []</pre>
+<pre><t></t>Y_test = []</pre>
+<pre><t></t>for i in range (60, inputs.shape[0]):</pre>
+<pre><t></t>    X_test.append(inputs[i-60:i]) Y_test.append(inputs[i, 0])</pre>
+<pre><t></t>    X_test, Y_test = np.array(X_test), np.array(Y_test) X_test.shape, Y_test.shape</pre>
+<pre><t></t>    Y_pred = regressor.predict(X_test) Y_pred, Y_test</pre>
+<pre><t></t>scaler.scale_</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/39461array.PNG" alt="scale" width="837" height="64" /></figure>
+</div>
+<pre><t></t>scale = 1/5.18164146e-05</pre>
+<pre><t></t>Y_test = Y_test*scale Y_pred = Y_pred*scale</pre>
+<pre><t></t>Y_pred</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/68598arra.PNG" alt="ypred" width="293" height="576" /></figure>
+</div>
+<pre><t></t>Y_test</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/52281y_test.PNG" alt="y_test" width="841" height="731" /></figure>
+</div>
+<pre><t></t>plt.figure(figsize=(14,5))
+<t></t>plt.plot(Y_test, color = 'red', label = 'Real Bitcoin Price')
+<t></t>plt.plot(Y_pred, color = 'green', label = 'Predicted Bitcoin Price')
+<t></t>plt.title('Bitcoin Price Prediction using RNN-LSTM')
+<t></t>plt.xlabel('Time')
+<t></t>plt.ylabel('Price')
+<t></t>plt.legend()
+<t></t>plt.show()</pre>
+<div>
+<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/9848010.PNG" alt="Bitcoin price prediction" width="1305" height="492" /></figure>
+</div>
+</div>
+
+<div>
+<h2>Conclusion</h2>
+
+<p><t></t>RNNs and LSTM are excellent technologies and have great architectures that can be used to analyze and predict time-series information. The focus of the article was to implement a simple model, if you are interested in the subject, try different things and want to play with hyperparameters and layers.</p>
+
+</div>
+
+</section>
+
+
