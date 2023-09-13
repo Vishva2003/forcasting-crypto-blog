@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-
-<link rel="stylesheet" href="Crypto.css" />
+<link rel="icon" href="favicon">
+<link rel="stylesheet" href="Crypto.css">
 <title>Bitcoin Price Prediction Using Recurrent Neural Networks and LSTM</title>
 
 
@@ -42,8 +42,8 @@
 <div>
 <h2>2. Understanding Bitcoin</h2>
 <p><t><t></t>Bitcoin is a cryptocurrency that was created in January 2009. It is the world&#8217;s most valuable cryptocurrency and is traded on over 40 exchanges around the world, accepting over 30 different currencies. As a currency, Bitcoin offers a new opportunity for price forecasting as it has high volatility, which is much higher compared to traditional currencies.</p>
-<p><t><t></t>The bitcoin system is a set of decentralized nodes that run the bitcoin code and store its <a href="https://www.investopedia.com/terms/b/blockchain.asp">blockchain</a>. Metaphorically, a blockchain can be considered a collection of blocks. In each block, there is a collection of transactions. Because all the computers running the blockchain has the same list of blocks and transactions, and can transparently see these new blocks being filled with new bitcoin transactions, no one can cheat the system.</p>
-<p><t><t></t>Bitcoin uses <a href="https://www.investopedia.com/terms/b/blockchain.asp">peer-to-peer</a> technology to facilitate instant payments. Miners are responsible for processing transactions on the blockchain and are driven by repo fees.</p>
+<p><t><t></t>The bitcoin system is a set of decentralized nodes that run the bitcoin code and store its blockchain. Metaphorically, a blockchain can be considered a collection of blocks. In each block, there is a collection of transactions. Because all the computers running the blockchain has the same list of blocks and transactions, and can transparently see these new blocks being filled with new bitcoin transactions, no one can cheat the system.</p>
+<p><t><t></t>Bitcoin uses peer-to-peer technology to facilitate instant payments. Miners are responsible for processing transactions on the blockchain and are driven by repo fees.</p>
 <p><t><t></t>The way bitcoin works are key to understanding why it is so popular. Unlike other investments, cryptocurrency is not tied to physical assets or the US dollar. Its primary purpose is to allow two people anywhere to exchange value directly. What this means is that there is no centralized controlling this network. There is no government, no central bank that can shut down or arbitrarily raise or lower the value.</p>
 <p><t><t></t>It will be interesting to see to which degree central banks start to digitize their own currencies. As financial systems become more digital, it&#8217;s leading to bitcoin more mainstream, but the digital currency&#8217;s resurgence is also closely tied to the state of global finance.</p>
 <p><t><t></t>Every time someone makes a transaction, a unique encrypted signature is added to the ledger for verification</p>
@@ -57,13 +57,13 @@
 <p><t></t>The algorithm performs very well for sequential data such as time series, speech, text, financial data, audio, video, weather, and more. RNNs are able to form a much deeper understanding of a sequence and its context compared to other algorithms.</p>
 <p><t></t>In an RNN, the information goes through a cycle. When making a decision, it considers the current input and also what it has learned from the inputs it has received previously.</p>
 <p><t></t>The image below illustrates how the flow of information works in the RNN algorithm.</p>
-<figure><img decoding="async" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/74558RNNs.png" alt="Bitcoin Price Prediction RNN" width="960" height="540" /></figure>
+<figure><img decoding="async" class="alignnone" src=".\assets\1.png" alt="Bitcoin Price Prediction RNN" width="960" height="540" /></figure>
 <h3><b>2) Long Short-Term Memory (LSTM)</b></h3>
 <p><t></t>Long short-term memory networks are an extension of recurrent neural networks, which basically extend the memory. Therefore it is well suited to learn from important experiences that have very long time lags in between.</p>
 <p><t></t>LSTMs enable RNNs to remember inputs over a long period of time. This is because LSTMs contain information in a memory, much like the memory of a computer. The LSTM can read, write and delete information from its memory.</p>
 <p><t></t>In an LSTM you have three gates: input, forget and output gate. These gates determine whether or not to let new input in (input gate), delete the information because it isn’t important (forget gate), or let it impact the output at the current timestep (output gate). Below is an illustration of an RNN with its three gates:</p>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/89215LSTM.png" alt="Bitcoin Price Prediction LSTM" width="877" height="542" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\2.png" alt="Bitcoin Price Prediction LSTM" width="877" height="542" /></figure>
 </div>
 <p><t></t>The gates in an LSTM are analog in the form of sigmoids, meaning they range from zero to one. The fact that they are analog enables them to do backpropagation.</p>
 </div>
@@ -79,17 +79,17 @@
 <pre><t></t>data_training = data[data['Date']&lt; '2020-01-01'].copy()
 <t>data_training</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/195402.PNG" alt="data Bitcoin Price Prediction" width="1022" height="525" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\3.png" alt="data Bitcoin Price Prediction" width="1022" height="525" /></figure>
 </div>
 <pre><t></t>data_test = data[data['Date']&lt; '2020-01-01'].copy()
 <t>data_test</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/232783.PNG" alt="Bitcoin Price Prediction test data " width="1025" height="541" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\4.png" alt="Bitcoin Price Prediction test data " width="1025" height="541" /></figure>
 </div>
 <pre><t></t>training_data = data_training.drop(['Date', 'Adj Close'], axis = 1)
 <t>training_data.head()</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/828494.PNG" alt="training Bitcoin Price Prediction" width="665" height="269" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\5.png" alt="training Bitcoin Price Prediction" width="665" height="269" /></figure>
 </div>
 </div>
 
@@ -101,7 +101,7 @@
 <t>training_data = scaler.fit_transform(training_data)
 <t>training_data</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/983495.PNG" alt="Bitcoin Price Prediction normalization" width="838" height="335" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\6.png" alt="Bitcoin Price Prediction normalization" width="838" height="335" /></figure>
 </div>
 <pre><t></t>X_train = [] 
 <t>Y_train = []</pre>
@@ -128,12 +128,12 @@
 <pre><t></t>model.add(Dropout(0.5)) model.add(Dense(units =1))</pre>
 <pre><t></t>model.summary()</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/620066.PNG" alt="model Bitcoin Price Prediction" width="768" height="634" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\7.png" alt="model Bitcoin Price Prediction" width="768" height="634" /></figure>
 </div>
 <pre><t></t>model.compile(optimizer = 'adam', loss = 'mean_squared_error')</pre>
 <pre><t></t>history= model.fit(X_train, Y_train, epochs = 20, batch_size =50, validation_split=0.1</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/49739epo.PNG" alt="epoch Bitcoin Price Prediction" width="1137" height="852" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\8.png" alt="epoch Bitcoin Price Prediction" width="1137" height="852" /></figure>
 </div>
 <pre><t></t>loss = history.history['loss']
 <t>val_loss = history.history['val_loss']
@@ -145,7 +145,7 @@
 <t></t>plt.legend()
 <t></t>plt.show()</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/937137.PNG" alt="Training and Validation Loss" width="601" height="403" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\9.png" alt="Training and Validation Loss" width="601" height="403" /></figure>
 </div>
 </div>
 
@@ -156,11 +156,11 @@
 <t>df = df.drop(['Date', 'Adj Close'], axis = 1)
 <t>df.head()</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/705588.PNG" alt="Test data" width="747" height="271" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\10.png" alt="Test data" width="747" height="271" /></figure>
 </div>
 <pre><t></t>inputs = scaler.transform(df) inputs</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/412329.PNG" alt="scaler transformer" width="806" height="189" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\11.png" alt="scaler transformer" width="806" height="189" /></figure>
 </div>
 <pre><t></t>X_test = []</pre>
 <pre><t></t>Y_test = []</pre>
@@ -170,17 +170,17 @@
 <pre><t></t>    Y_pred = regressor.predict(X_test) Y_pred, Y_test</pre>
 <pre><t></t>scaler.scale_</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/39461array.PNG" alt="scale" width="837" height="64" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\12.png" alt="scale" width="837" height="64" /></figure>
 </div>
 <pre><t></t>scale = 1/5.18164146e-05</pre>
 <pre><t></t>Y_test = Y_test*scale Y_pred = Y_pred*scale</pre>
 <pre><t></t>Y_pred</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/68598arra.PNG" alt="ypred" width="293" height="576" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\13.png" alt="ypred" width="293" height="576" /></figure>
 </div>
 <pre><t></t>Y_test</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/52281y_test.PNG" alt="y_test" width="841" height="731" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\14.png" alt="y_test" width="841" height="731" /></figure>
 </div>
 <pre><t></t>plt.figure(figsize=(14,5))
 <t></t>plt.plot(Y_test, color = 'red', label = 'Real Bitcoin Price')
@@ -191,7 +191,7 @@
 <t></t>plt.legend()
 <t></t>plt.show()</pre>
 <div>
-<figure><img decoding="async" loading="lazy" class="alignnone" src="https://editor.analyticsvidhya.com/uploads/9848010.PNG" alt="Bitcoin price prediction" width="1305" height="492" /></figure>
+<figure><img decoding="async" loading="lazy" class="alignnone" src=".\assets\15.png" alt="Bitcoin price prediction" width="1305" height="492" /></figure>
 </div>
 </div>
 
